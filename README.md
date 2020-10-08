@@ -1,5 +1,5 @@
-Starting Nest: npm run start:dev
-Starting Front: npm run start:front
+<span>Starting Nest: npm run start:dev</span>
+<span>Starting Front: npm run start:front</span>
 
 
 

@@ -1,7 +1,9 @@
-<span>Starting Nest: npm run start:dev</span>
-<span>Starting Front: npm run start:front</span>
+## Running the app
+```bash
+Starting Nest: npm run start:dev
+Starting Front: npm run start:front
 
-
+```
 
 
 <p align="center">

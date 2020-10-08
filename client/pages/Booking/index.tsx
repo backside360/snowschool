@@ -6,6 +6,7 @@ import { Footer } from '@modules/commons/Footer';
 import { MainLayout } from '@UI/layouts/Main';
 import { Header } from '@modules/commons/Header';
 import { Training } from './modules/Training';
+import { Schedule } from './modules/Schedule';
 
 export const BookingInfo: React.FC<any> = () => {
   const [speciality, setSpeciality] = useState<string | undefined>('');
@@ -21,11 +22,9 @@ export const BookingInfo: React.FC<any> = () => {
   return (
     <MainLayout
       header={() => <Header />}
-      body={() => <Training times={times} speciality={speciality} />}
+      body={() => <Schedule speciality={speciality} />}
       footer={() => <Footer />}
     />
   );
 };
 export default BookingInfo;
-
-

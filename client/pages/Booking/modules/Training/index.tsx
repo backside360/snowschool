@@ -39,20 +39,22 @@ export const Training = (props: any) => {
     })();
   }, []);
 
-  console.log(training);
-
   const onFinish = async (values: any) => {
     console.log(values);
 
-    await api.training.post(values, speciality);
+    const date = values.date.format('L');
+
+    await api.training.post({ ...values, type: speciality, date: date });
 
     await message.success(
-      `Вы успешно записались на тренировку в ${values.type}`,
+      `Вы успешно записались на тренировку в ${values.place}`,
       1.5,
     );
+
     await message.info('Перенаправляем на главную...', 1);
     history.push('/');
   };
+
   return !loading ? (
     <div className="training_form">
       <Row justify="center">
@@ -83,7 +85,11 @@ export const Training = (props: any) => {
               name="date"
               rules={[{ required: true, message: 'Укажите дату' }]}
             >
-              <DatePicker locale={locale} style={{ width: '100%' }} />
+              <DatePicker
+                locale={locale}
+                style={{ width: '100%' }}
+                format={'DD-MM-YYYY'}
+              />
             </Form.Item>
             <Form.Item
               label="Доступное время"

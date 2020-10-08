@@ -1,14 +1,24 @@
-import { time } from 'console';
-
 const baseUrl = 'http://localhost:3000';
 
 const api = {
   training: {
-    get: () =>
+    getAll: () =>
       fetch(`${baseUrl}/trainings`, { mode: 'cors' }).then(response =>
         response.json(),
       ),
-    post: (values, type) =>
+    get: () =>
+      fetch(`${baseUrl}/trainings/places`, { mode: 'cors' }).then(response =>
+        response.json(),
+      ),
+    getSchedule: type =>
+      fetch(`${baseUrl}/trainings/schedule?type=${type}`, {
+        mode: 'cors',
+      }).then(response => response.json()),
+    getTrainingByDate: date =>
+      fetch(`${baseUrl}/trainings/date?date=${date}`, {
+        mode: 'cors',
+      }).then(response => response.json()),
+    post: values =>
       fetch(`${baseUrl}/trainings`, {
         method: 'POST',
         mode: 'cors',
@@ -16,15 +26,18 @@ const api = {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          type: type,
+          type: values.type,
           place: values.place,
           name: values.name,
           time: values.time,
           date: values.date,
-          coach: 'vasy',
+          coach: 'Misha',
         }),
       }),
   },
 };
+
+// @ts-ignore
+window.api = api;
 
 export default api;

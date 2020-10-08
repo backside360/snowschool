@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { DataService } from './data.service';
 import { TrainingService } from './trainings.service';
 
@@ -10,11 +10,42 @@ export class TrainingController {
   ) {}
 
   @Get()
-  getTraining() {
+  async getTrainings() {
+    try {
+      return await this.trainingsService.getAll();
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  @Get('schedule')
+  async getTraining(@Query('type') type: string) {
+    try {
+      return await this.trainingsService.get(type);
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  @Get('date')
+  async getTrainingByDate(@Query('date') date: string) {
+    try {
+      return await this.trainingsService.getByDate(date);
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  @Get('places')
+  getPlaces() {
     return this.dataService.fullPlace;
   }
+
   @Post()
-  createTraining(
+  async createTraining(
     @Body('place') place: string,
     @Body('time') time: string,
     @Body('date') date: any,
@@ -22,14 +53,19 @@ export class TrainingController {
     @Body('type') type: string,
     @Body('coach') coach: string,
   ) {
-    this.trainingsService.create({
-      type: type,
-      place: place,
-      time: time,
-      date: date,
-      name: name,
-      coach: coach,
-    });
-    return 'Success';
+    try {
+      await this.trainingsService.create({
+        type: type,
+        place: place,
+        time: time,
+        date: date,
+        name: name,
+        coach: coach,
+      });
+      return 'Success';
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
 }

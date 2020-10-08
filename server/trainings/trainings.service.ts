@@ -1,16 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { getManager, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { TrainingsEntity } from './trainings.entity';
 
 @Injectable()
 export class TrainingService {
-  create(train) {
-    console.log(train);
-
-    const manager = getManager();
+  async create(train) {
     const repository = getRepository(TrainingsEntity);
 
-    const training = manager.create(TrainingsEntity, train);
-    repository.save(training);
+    const training = repository.create(train);
+    return await repository.insert(training);
+  }
+  async getAll() {
+    const repository = getRepository(TrainingsEntity);
+    return await repository.find();
+  }
+  async get(type: string) {
+    const repository = getRepository(TrainingsEntity);
+    return await repository.find({ type: type });
+  }
+  async getByDate(date) {
+    const repository = getRepository(TrainingsEntity);
+    return await repository.find({ date: date });
   }
 }

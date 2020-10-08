@@ -8,12 +8,12 @@ export class TrainingsEntity {
   type: string;
   @Column({ type: 'varchar', length: 100, nullable: false })
   place: string;
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   date: string;
   @Column({ type: 'varchar', nullable: true })
   time: string;
-  @Column({ type: 'varchar', length: 100, nullable: false })
-  name: string;
+  @Column('simple-array', { nullable: true })
+  name: string[];
   @Column({ type: 'varchar', length: 100, nullable: false })
   coach: string;
 }

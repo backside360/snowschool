@@ -1,0 +1,10 @@
+.training_col {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.training_link {
+  font-size: 18px;
+}

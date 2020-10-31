@@ -1,28 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { match as IMatch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { Skeleton, Empty } from 'antd';
 
 import { Footer } from '@modules/commons/Footer';
 import { MainLayout } from '@UI/layouts/Main';
 import { Header } from '@modules/commons/Header';
-import { Training } from './modules/Training';
+import api from '@services/api';
+
 import { Schedule } from './modules/Schedule';
+import { Content } from './UI/Layout/Content';
+import { EmptyCard } from '@UI/basics/EmptyCard';
+import moment from 'moment';
+
+const Head = () => <Header />;
 
 export const BookingInfo: React.FC<any> = () => {
-  const [speciality, setSpeciality] = useState<string | undefined>('');
-
-  const history = useHistory();
+  const { id } = useParams();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [schedules, setSchedule] = useState<any>([]);
 
   useEffect(() => {
-    setSpeciality(history.location.pathname.split('/').pop());
-  }, [history, speciality]);
+    api.training.getSchedule(id).then(data => {
+      data.map(training =>
+        moment(training.date).isSameOrAfter(moment().format('YYYY-MM-DD'))
+          ? setSchedule(oldSchedule => [...oldSchedule, training])
+          : setSchedule([]),
+      );
+      setLoading(false);
+    }) as any;
+  }, []);
 
-  const times = ['15-00', '17-00', '20-30'];
+  const normalizeDate = (date: string): string => {
+    return date
+      .split('-')
+      .reverse()
+      .join('.');
+  };
 
   return (
     <MainLayout
-      header={() => <Header />}
-      body={() => <Schedule speciality={speciality} />}
+      header={Head}
+      body={() =>
+        loading ? (
+          <Skeleton active />
+        ) : (
+          <Content>
+            {schedules.length !== 0 ? (
+              schedules.map(schedule => (
+                <Schedule
+                  key={schedule.id}
+                  title={id}
+                  schedule={schedule}
+                  date={normalizeDate(schedule.date)}
+                />
+              ))
+            ) : (
+              <EmptyCard description="Пока нет запланированных тренировок" />
+            )}
+          </Content>
+        )
+      }
       footer={() => <Footer />}
     />
   );

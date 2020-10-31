@@ -17,6 +17,9 @@ const api = {
     getTrainingByDate: date =>
       fetch(`${baseUrl}/trainings/date?date=${date}`, {
         mode: 'cors',
+        headers: {
+          Authorization: window.localStorage.getItem('token'),
+        },
       }).then(response => response.json()),
     post: values =>
       fetch(`${baseUrl}/trainings`, {
@@ -24,6 +27,7 @@ const api = {
         mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: window.localStorage.getItem('token'),
         },
         body: JSON.stringify({
           type: values.type,
@@ -31,9 +35,36 @@ const api = {
           name: values.name,
           time: values.time,
           date: values.date,
-          coach: 'Misha',
+          coach: values.coach,
         }),
       }),
+    createAppointment: values =>
+      fetch(`${baseUrl}/trainings/appointment`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: values.id,
+          name: values.name,
+        }),
+      }),
+  },
+  user: {
+    getUser: values =>
+      fetch(`${baseUrl}/auth/login`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        }),
+      }).then(response => response.json()),
   },
 };
 

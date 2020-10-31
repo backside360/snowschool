@@ -44,6 +44,20 @@ export class TrainingController {
     return this.dataService.fullPlace;
   }
 
+  @Post('appointment')
+  async createAppointment(@Body('id') id: number, @Body('name') name: string) {
+    try {
+      await this.trainingsService.createAppointment({
+        id: id,
+        name: name,
+      });
+      return 'Success';
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
   @Post()
   async createTraining(
     @Body('place') place: string,

@@ -1,22 +1,45 @@
 import React from 'react';
-import { Table, Tag } from 'antd';
-const { Column, ColumnGroup } = Table;
+import { Tag, Popover, Card, Typography } from 'antd';
 
-export const TrainingList = props => {
+import './styles.css';
+
+const { Text } = Typography;
+
+export type IProps = {
+  data: any;
+  index: number;
+  date: string;
+};
+
+export const TrainingList: React.FC<IProps> = ({ index, date, data }) => {
+  const students = (
+    <div className="students">
+      <p key={index}>{(index ? ', ' : '') + data.name}</p>
+    </div>
+  );
   return (
-    <>
-      <h1>Тренировки</h1>
-
-      <Table dataSource={props.data}>
-        <Column title="Тренировка" dataIndex="type" key="type" />
-        <Column title="Дата" dataIndex="date" key="date" />
-        <Column
-          title="Место"
-          dataIndex="place"
-          key="place"
-          render={place => <Tag>{place}</Tag>}
-        />
-      </Table>
-    </>
+    <div className="training_list">
+      <Card
+        title={data.type}
+        extra={data.place}
+        key={data.id}
+        className="list_card"
+      >
+        <p>
+          Дата: <Text strong>{date}</Text>
+        </p>
+        <p>
+          Время: <Text strong>{data.time}</Text>
+        </p>
+        <p>
+          Ребятки:{' '}
+          <Popover content={students} title="Имена" trigger="click">
+            <Tag color={data.name?.length !== 0 ? '#87d068' : '#f50'}>
+              {data.name?.length}
+            </Tag>
+          </Popover>
+        </p>
+      </Card>
+    </div>
   );
 };

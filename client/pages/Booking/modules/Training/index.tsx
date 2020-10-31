@@ -40,8 +40,6 @@ export const Training = (props: any) => {
   }, []);
 
   const onFinish = async (values: any) => {
-    console.log(values);
-
     const date = values.date.format('L');
 
     await api.training.post({ ...values, type: speciality, date: date });

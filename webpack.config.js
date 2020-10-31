@@ -55,6 +55,7 @@ module.exports = {
     historyApiFallback: true,
     disableHostCheck: true,
     contentBase: `${__dirname}/dist-client`,
+    host: '0.0.0.0',
     port: 9000,
     hot: true,
   },

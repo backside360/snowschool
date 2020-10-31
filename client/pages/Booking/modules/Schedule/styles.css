@@ -1,0 +1,11 @@
+.schedule_form {
+  margin-bottom: 10px;
+}
+
+.schedule_card {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card_item {
+  font-weight: bold;
+}

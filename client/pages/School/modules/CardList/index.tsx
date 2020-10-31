@@ -3,6 +3,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 
 import { BookingCard } from '@UI/basics/Card';
+import './styles.css';
 
 export const CardsList: React.FC<any> = ({ onClick }) => {
   const serviсes = [

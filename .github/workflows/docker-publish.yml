@@ -33,7 +33,7 @@ jobs:
       - name: Push image to GitHub Container Registry
         run: |
           FULL_IMAGE_NAME_FRONT=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME_FRONT
-          FULL_IMAGE_NAME_BACK==ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME_BACK
+          FULL_IMAGE_NAME_BACK=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME_BACK
           # Change all uppercase to lowercase
           FULL_IMAGE_NAME_FRONT=$(echo $FULL_IMAGE_NAME_FRONT | tr '[A-Z]' '[a-z]')
           FULL_IMAGE_NAME_BACK=$(echo $FULL_IMAGE_NAME_BACK | tr '[A-Z]' '[a-z]')

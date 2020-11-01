@@ -1,62 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Input,
   Drawer,
   Button,
-  DatePicker,
   Select,
   Col,
   Row,
   message,
-  Skeleton,
   Space,
-  TimePicker,
 } from 'antd';
 import 'moment/locale/ru';
-import locale from 'antd/es/date-picker/locale/ru_RU';
-import { useHistory } from 'react-router-dom';
 
 import api from '@services/api';
 
 import './styles.css';
-import moment from 'moment';
 
 const { Option } = Select;
+
+export type IValues = {
+  type: string;
+  date: string;
+  place: string;
+  coach: string;
+  time: string;
+};
 
 export type IProps = {
   visible: boolean;
   handleDrawerVisible: (value: boolean) => void;
 };
 
-export const Create = (props: any) => {
-  const history = useHistory();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [training, setTraining] = useState<any>(null);
+export const Create: React.FC<any> = ({
+  training,
+  visible,
+  handleDrawerVisible,
+  updateData,
+  currentDate,
+}) => {
   const [places, setPlaces] = useState<string[]>([]);
   const [disabled, setDisabled] = useState<boolean>(true);
   const [speciality, setSpecitality] = useState<string>('');
 
-  const { visible, handleDrawerVisible } = props;
-
-  useEffect(() => {
-    (async () => {
-      const data = await api.training.get();
-      setTraining(data);
-      setLoading(false);
-    })();
-  }, []);
-
-  const onFinish = async (values: any) => {
-    console.log(values);
-
-    const date = values.date.format('L');
-
+  const onFinish = async (values: IValues) => {
     await api.training.post({
       ...values,
       type: speciality,
-      date: date,
     });
+
+    if (values.date === currentDate) {
+      await api.training.getTrainingByDate(values.date).then(data => {
+        updateData(data);
+      });
+    }
 
     await message.success(
       `Вы успешно создали тренировку: ${values.place} на ${values.time}`,
@@ -70,20 +66,16 @@ export const Create = (props: any) => {
     setDisabled(false);
   };
 
-  return !loading ? (
-    <Drawer
-      visible={visible}
-      onClose={() => handleDrawerVisible(!visible)}
-      width={300}
-    >
+  return (
+    <Drawer visible={visible} onClose={() => handleDrawerVisible(!visible)}>
       <div className="training_form">
         <Row justify="center">
           <Form layout="vertical" name="basic" onFinish={onFinish}>
-            <Col sm={3}>
+            <Col sm={3} md={24}>
               <Form.Item
                 label="Вид тренировки"
                 name="type"
-                rules={[{ required: true, message: 'Укажите вид тренировки' }]}
+                rules={[{ required: true, message: 'Укажи вид тренировки' }]}
               >
                 <Select
                   style={{ width: '100%' }}
@@ -95,13 +87,11 @@ export const Create = (props: any) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col sm={3}>
+            <Col sm={3} md={24}>
               <Form.Item
                 label="Место тренировки"
                 name="place"
-                rules={[
-                  { required: true, message: 'Укажите место тренировки' },
-                ]}
+                rules={[{ required: true, message: 'Укажи место тренировки' }]}
               >
                 <Select style={{ width: '100%' }} disabled={disabled}>
                   {!disabled
@@ -114,27 +104,35 @@ export const Create = (props: any) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col sm={3}>
+            <Col sm={3} md={24}>
               <Form.Item
                 label="Выберите дату"
                 name="date"
-                rules={[{ required: true, message: 'Укажите дату' }]}
+                rules={[{ required: true, message: 'Укажи дату' }]}
               >
-                <DatePicker
-                  locale={locale}
-                  style={{ width: '100%' }}
-                  format={'DD-MM-YYYY'}
-                />
+                <input type="date" className="training_form_date" />
               </Form.Item>
             </Col>
-            <Col sm={3}>
+            <Col sm={3} md={24}>
               <Form.Item
                 label="Время тренировки"
                 name="time"
-                rules={[{ required: true, message: 'Укажите время' }]}
+                rules={[{ required: true, message: 'Укажи время' }]}
               >
-                {/* <TimePicker defaultValue={moment()} format={'HH:mm'} /> */}
                 <Input></Input>
+              </Form.Item>
+            </Col>
+            <Col sm={3} md={24}>
+              <Form.Item
+                label="Кто будет тренировать"
+                name="coach"
+                rules={[{ required: true, message: 'Укажи тренера' }]}
+              >
+                <Select style={{ width: '100%' }}>
+                  <Option value="Саша">Саша</Option>
+                  <Option value="Миша">Миша</Option>
+                  <Option value="Саша и Миша">Саша и Миша</Option>
+                </Select>
               </Form.Item>
             </Col>
             <Form.Item>
@@ -146,7 +144,10 @@ export const Create = (props: any) => {
                     </Button>
                   </Col>
                   <Col xs={24}>
-                    <Button type="primary" onClick={history.goBack}>
+                    <Button
+                      type="primary"
+                      onClick={() => handleDrawerVisible(false)}
+                    >
                       Назад
                     </Button>
                   </Col>
@@ -157,7 +158,5 @@ export const Create = (props: any) => {
         </Row>
       </div>
     </Drawer>
-  ) : (
-    <Skeleton active></Skeleton>
   );
 };

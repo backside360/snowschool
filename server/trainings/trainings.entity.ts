@@ -12,8 +12,11 @@ export class TrainingsEntity {
   date: string;
   @Column({ type: 'varchar', nullable: true })
   time: string;
-  @Column('simple-array', { nullable: true })
-  name: string[];
+  @Column('text', {
+    array: true,
+    nullable: true,
+  })
+  name: string[] = [];
   @Column({ type: 'varchar', length: 100, nullable: false })
   coach: string;
 }

@@ -1,3 +1,8 @@
+.ant-drawer-content-wrapper {
+  width: 300px !important;
+  overflow-y: scroll;
+}
+
 .form_buttons {
   display: flex;
   flex-direction: column;
@@ -6,9 +11,18 @@
 }
 
 .training_form {
+  display: flex;
+  justify-content: center;
   min-width: 200px;
-
+  height: 800px;
   animation: fade-in-fwd 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+.training_form_date {
+  display: block;
+  -webkit-appearance: none;
+  min-height: 2.5em;
+  width: 100%;
 }
 
 @keyframes fade-in-fwd {

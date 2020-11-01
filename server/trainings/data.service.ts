@@ -14,6 +14,7 @@ export class DataService {
     krylatskoe: 'Крылатское',
     allpro: 'Allpro Academy',
     cska: 'ЦСКА',
+    snejcom: 'Снежком'
   };
 
   coaches = {
@@ -41,6 +42,7 @@ export class DataService {
 
   fullPlace = {
     [this.types.snowboard]: [
+      this.places.snejcom,
       this.places.kant,
       this.places.krylatskoe,
       this.places.novoperedelkino,

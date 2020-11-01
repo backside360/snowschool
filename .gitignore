@@ -2,6 +2,7 @@
 /dist
 /dist-client
 /node_modules
+/db_data
 
 # Logs
 logs

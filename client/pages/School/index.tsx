@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { Button } from 'antd';
 
 import { Header } from '@modules/commons/Header';
 import { Footer } from '@modules/commons/Footer';

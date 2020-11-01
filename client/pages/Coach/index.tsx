@@ -8,31 +8,45 @@ import { Filter } from './modules/Filter';
 import api from '@services/api';
 import moment from 'moment';
 import { Create } from './modules/Create';
+import { Row, Spin } from 'antd';
+import { EmptyCard } from '@UI/basics/EmptyCard';
+import { Content } from './UI/Layout/Content';
 
 /**
- * Передать в фильтр колбэк onChange={setFilter}
+ * Страница для Тренера
  */
-
 export const Coach: React.FC = () => {
-  const [data, setData] = useState();
-  const [filter, setFilter] = useState(moment().format('L'));
+  const [data, setData] = useState([]);
+  const [training, setTraining] = useState<any>(null);
+  const [filter, setFilter] = useState<string>(moment().format('YYYY-MM-DD'));
   const [visible, setVisible] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [placesLoading, setPlacesLoading] = useState<boolean>(true);
 
-  console.log(visible);
+  const handleOpen = React.useCallback(() => setVisible(true), [visible]);
+  const handleFilter = React.useCallback(value => setFilter(value), []);
 
   useEffect(() => {
-    (async () => {
-      const data = await api.training.getAll();
+    setLoading(true);
+    api.training.getTrainingByDate(filter).then(data => {
       setData(data);
-    })();
+      setLoading(false);
+    });
+  }, [filter]);
+
+  useEffect(() => {
+    api.training.get().then(data => {
+      setTraining(data);
+      setPlacesLoading(false);
+    }) as any;
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      const data = await api.training.getTrainingByDate(filter);
-      setData(data);
-    })();
-  }, [filter]);
+  const normalizeDate = (date: string): string => {
+    return date
+      .split('-')
+      .reverse()
+      .join('.');
+  };
 
   return (
     <MainLayout
@@ -43,9 +57,31 @@ export const Coach: React.FC = () => {
             visible={visible}
             handleDrawerVisible={setVisible}
             data={data}
+            training={training}
+            updateData={setData}
+            currentDate={filter}
           />
-          <Filter onChange={setFilter} handleDrawerVisible={setVisible} />
-          {data ? <TrainingList data={data} /> : 'loading'}
+          <Filter value={filter} onChange={handleFilter} onOpen={handleOpen} />
+          {placesLoading || loading ? (
+            <Row justify="center">
+              <Spin size="large" />
+            </Row>
+          ) : (
+            <Content>
+              {data.length !== 0 ? (
+                data.map((trainings, index) => (
+                  <TrainingList
+                    data={trainings}
+                    key={trainings.id}
+                    index={index}
+                    date={normalizeDate(trainings.date)}
+                  />
+                ))
+              ) : (
+                <EmptyCard description="Вы пока не запланировали тренировки на этот день" />
+              )}
+            </Content>
+          )}
         </>
       )}
       footer={() => <Footer />}

@@ -1,8 +1,14 @@
+.ant-layout {
+  background: #fff;
+}
+
 .main {
-  overflow: hidden;
+  overflow: auto;
+  background: #fff;
 }
 
 .content {
   margin-top: 50px;
   min-height: 100vh;
+  background: #fff;
 }

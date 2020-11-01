@@ -1,25 +1,33 @@
-import React from 'react';
-import { Button, DatePicker } from 'antd';
+import React, { useMemo } from 'react';
+import { Button, DatePicker, Typography } from 'antd';
+import locale from 'antd/es/date-picker/locale/ru_RU';
 import moment from 'moment';
+
+import './styles.css';
+
+const { Text } = Typography;
 
 export type IProps = {
   onChange: (value: string) => void;
-  handleDrawerVisible: (value: boolean) => void;
+  onOpen: (value: React.MouseEvent<HTMLButtonElement>) => void;
+  value: string;
 };
 
-export const Filter = (props: IProps) => {
-  const { onChange, handleDrawerVisible } = props;
+export const Filter: React.FC<IProps> = ({ onChange, onOpen, value }) => {
+  const date = useMemo(() => moment(value), [value]);
+
   return (
-    <div>
+    <div className="filter">
+      <Button onClick={onOpen}>Создать тренировку</Button>
+      <Text strong>Выбери дату для просмотра тренировок</Text>
       <DatePicker
         size="large"
-        defaultValue={moment()}
+        value={date}
+        className="date_picker"
+        locale={locale}
         format={'DD-MM-YYYY'}
-        onChange={date => onChange(date.format('L'))}
+        onChange={date => onChange(date.format('YYYY-MM-DD'))}
       />
-      <Button onClick={() => handleDrawerVisible(true)}>
-        Создать тренировку
-      </Button>
     </div>
   );
 };

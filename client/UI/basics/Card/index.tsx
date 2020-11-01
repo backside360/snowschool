@@ -8,20 +8,18 @@ import './styles.css';
 
 export type IProps = {
   name?: string;
-  exchange?: string;
-  marketCapitalization?: number;
-  ticker: string;
+  training: [];
   onClick?: (symbol: string) => void;
 };
 
-export const BookingCard: React.FC<any> = ({ name, training, onClick }) => {
+export const BookingCard: React.FC<IProps> = ({ name, training, onClick }) => {
   const history = useHistory();
 
   return (
     <Card
       title={name}
       headStyle={{ display: 'flex', justifyContent: 'center' }}
-      style={{ width: '400px', height: '100%', borderRadius: '10px' }}
+      className="widget_card"
     >
       {training.map((workout: any) => (
         <div className="training_col">

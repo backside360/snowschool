@@ -28,7 +28,7 @@ export const Training = (props: any) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [training, setTraining] = useState<any>(null);
   const [visible, setVisible] = useState<boolean>(false);
-  const { times, places, speciality } = props;
+  const { times, speciality } = props;
 
   useEffect(() => {
     (async () => {
@@ -40,8 +40,6 @@ export const Training = (props: any) => {
   }, []);
 
   const onFinish = async (values: any) => {
-    console.log(values);
-
     const date = values.date.format('L');
 
     await api.training.post({ ...values, type: speciality, date: date });

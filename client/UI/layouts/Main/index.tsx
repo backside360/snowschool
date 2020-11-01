@@ -4,21 +4,23 @@ import { Layout } from 'antd';
 import './styles.css';
 
 interface IProps {
-  header?: React.ElementType;
-  body?: React.ElementType;
-  footer?: React.ElementType;
+  header?: () => React.ReactNode;
+  body?: () => React.ReactNode;
+  footer?: () => React.ReactNode;
 }
 
 export const MainLayout: React.FC<IProps> = ({
-  header: Header,
-  body: Body,
-  footer: Footer,
+  header: renderHeader,
+  body: renderBody,
+  footer: renderFooter,
 }) => (
   <div className="main">
-    {Header && <Header />}
+    {renderHeader && renderHeader()}
     <Layout>
-      <Layout.Content className="content">{Body && <Body />}</Layout.Content>
+      <Layout.Content className="content">
+        {renderBody && renderBody()}
+      </Layout.Content>
     </Layout>
-    {Footer && <Footer />}
+    {renderFooter && renderFooter()}
   </div>
 );

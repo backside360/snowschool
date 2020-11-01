@@ -41,7 +41,9 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.2.25",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
     "@babel/plugin-transform-typescript": "^7.11.0",

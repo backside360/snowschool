@@ -4,22 +4,17 @@ import {
   Input,
   Drawer,
   Button,
-  DatePicker,
   Select,
   Col,
   Row,
   message,
-  Skeleton,
   Space,
 } from 'antd';
 import 'moment/locale/ru';
-import locale from 'antd/es/date-picker/locale/ru_RU';
 
 import api from '@services/api';
 
 import './styles.css';
-
-import moment from 'moment';
 
 const { Option } = Select;
 

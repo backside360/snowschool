@@ -34,4 +34,8 @@ export class TrainingService {
     const repository = getRepository(TrainingsEntity);
     return await repository.find({ date: date });
   }
+  async update(values) {
+    const repository = getRepository(TrainingsEntity);
+    await repository.update(values.id, { time: values.time });
+  }
 }

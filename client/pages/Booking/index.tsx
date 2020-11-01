@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Skeleton, Empty } from 'antd';
+import { Skeleton } from 'antd';
 
 import { Footer } from '@modules/commons/Footer';
 import { MainLayout } from '@UI/layouts/Main';

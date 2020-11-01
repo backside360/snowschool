@@ -82,4 +82,21 @@ export class TrainingController {
       return err;
     }
   }
+
+  @Post('update')
+  async updateTraining(
+    @Body('id') id: number,
+    @Body('time') time: string,
+  ) {
+    try {
+      await this.trainingsService.update({
+        id:id,
+        time: time     
+      });
+      return 'Success';
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 }

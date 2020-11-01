@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Card, Input, Form, message } from 'antd';
 import api from '@services/api';
 import './styles.css';
-import moment from 'moment';
 
 export type IProps = {
   title: string;
@@ -12,8 +11,6 @@ export type IProps = {
 
 export const Schedule: React.FC<IProps> = ({ title, schedule, date }) => {
   const [form] = Form.useForm();
-
-  const isDatePast = moment(schedule.date).isBefore(moment());
 
   const onFinish = React.useCallback(
     async values => {

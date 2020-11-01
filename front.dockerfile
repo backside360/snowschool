@@ -1,7 +1,7 @@
 FROM node:12-alpine as build
 WORKDIR /app
 COPY package.json /app/package.json
-RUN npm i -g webpack-cli && \
+RUN npm i -D webpack-cli && \
     npm install --only=prod
 COPY . /app
 RUN npm run build:front

@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'server/**'
+      - '.github/workflows/back-build.yml'
+      - '**.**'
+      - '!**.md'
     tags:
       - v*
 
@@ -20,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image back
+      - name: Build image
         run: docker build . --file back.dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry

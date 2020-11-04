@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'client/**'
+      - '.github/workflows/front-build.yml'
+      - '**.**'
+      - '!**.md'
     tags:
       - v*
 
@@ -20,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image front
+      - name: Build image
         run: docker build . --file front.dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry

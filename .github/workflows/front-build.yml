@@ -1,0 +1,43 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'client/**'
+    tags:
+      - v*
+
+env:
+  IMAGE_NAME: front
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image front
+        run: docker build . --file front.dockerfile --tag $IMAGE_NAME
+
+      - name: Log into GitHub Container Registry
+        run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push image to GitHub Container Registry
+        run: |
+          FULL_IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          # Change all uppercase to lowercase
+          FULL_IMAGE_NAME=$(echo $FULL_IMAGE_NAME | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "main" ] && VERSION=latest
+          echo FULL_IMAGE_NAME=$FULL_IMAGE_NAME
+          echo VERSION=$VERSION
+          docker tag $IMAGE_NAME $FULL_IMAGE_NAME:$VERSION
+          docker push $FULL_IMAGE_NAME:$VERSION

@@ -13,7 +13,7 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: back
+  IMAGE_NAME: snowschool-back
 
 jobs:
   build_and_push:

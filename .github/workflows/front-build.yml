@@ -16,7 +16,7 @@ env:
   IMAGE_NAME: snowschool-front
 
 jobs:
-  build_and_push:
+  build_front:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 

@@ -6,9 +6,6 @@ import School from './School';
 import Login from './Login';
 import { PrivateRoute } from '../containers/PrivateRoute';
 
-/**
- * isAuth ? : ()
- */
 export const Routes = () => (
   <Switch>
     <Route exact path="/" component={School} />

@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Input, Form, message } from 'antd';
 import api from '@services/api';
 import './styles.css';
+import { ITraining } from '@services/api/types';
 
 export type IProps = {
   title: string;
-  schedule: any;
+  schedule: ITraining;
   date: string;
 };
 
 export const Schedule: React.FC<IProps> = ({ title, schedule, date }) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = React.useCallback(
     async values => {

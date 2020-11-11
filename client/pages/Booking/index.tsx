@@ -21,10 +21,10 @@ export const BookingInfo: React.FC<any> = () => {
 
   useEffect(() => {
     api.training.getSchedule(id).then(data => {
-      data.map(training =>
-        moment(training.date).isSameOrAfter(moment().format('YYYY-MM-DD'))
-          ? setSchedule(oldSchedule => [...oldSchedule, training])
-          : setSchedule([]),
+      setSchedule(
+        data.filter(training =>
+          moment(training.date).isSameOrAfter(moment().format('YYYY-MM-DD')),
+        ),
       );
       setLoading(false);
     }) as any;

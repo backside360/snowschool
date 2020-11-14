@@ -49,6 +49,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: `${__dirname}/public/index.html`,
+      favicon: './public/favicon_io/favicon.ico',
     }),
   ],
   devServer: {

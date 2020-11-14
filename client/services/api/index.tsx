@@ -51,6 +51,18 @@ const api = {
           time: values.time,
         }),
       }),
+    delete: id =>
+      fetch(`${baseUrl}/api/trainings/delete`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: window.localStorage.getItem('token'),
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      }),
     createAppointment: values =>
       fetch(`${baseUrl}/api/trainings/appointment`, {
         method: 'POST',

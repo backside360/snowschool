@@ -38,4 +38,8 @@ export class TrainingService {
     const repository = getRepository(TrainingsEntity);
     await repository.update(values.id, { time: values.time });
   }
+  async delete(values) {
+    const repository = getRepository(TrainingsEntity);
+    await repository.delete(values.id);
+  }
 }

@@ -74,6 +74,7 @@ export const Coach: React.FC = () => {
                     data={trainings}
                     key={trainings.id}
                     index={index}
+                    updateData={setData}
                     date={normalizeDate(trainings.date)}
                   />
                 ))

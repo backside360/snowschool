@@ -99,4 +99,19 @@ export class TrainingController {
       return err;
     }
   }
+
+  @Post('delete')
+  async deleteTraining(
+    @Body('id') id: number
+  ) {
+    try {
+      await this.trainingsService.delete({
+        id:id,    
+      });
+      return 'Success';
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 }

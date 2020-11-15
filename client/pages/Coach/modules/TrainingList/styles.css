@@ -10,6 +10,10 @@
   flex-direction: column;
 }
 
+.ant-card-actions {
+  border-radius: 0 0 10px 10px;
+}
+
 .list_card {
   border-radius: 10px;
   min-width: 300px;

@@ -89,7 +89,7 @@ export const TrainingList: React.FC<IProps> = ({
           </Text>
         </p>
         <p>
-          Время: <Text strong>{data.coach}</Text>
+          Кто тренирует: <Text strong>{data.coach}</Text>
         </p>
         <p>
           Ребятки:{' '}
